@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # --- MACHINE 1: The Data Warehouse ---
+  postgres_db:
+    image: postgres:15
+    container_name: weather_data_warehouse
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U data_engineer -d weather_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- MACHINE 2: The Airflow Orchestrator ---
+  airflow:
+    build: .
+    container_name: airflow_orchestrator
+    env_file: .env
+    environment:
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./.env:/opt/airflow/.env
+    command: standalone
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  # --- MACHINE 3: The BI Dashboard ---
+  metabase:
+    image: metabase/metabase:latest
+    container_name: weather_dashboard
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
