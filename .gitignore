@@ -1,0 +1,18 @@
+Environments
+
+.env
+
+Database local storage
+
+postgres_data/
+
+Airflow logs and generated passwords
+
+logs/
+plugins/
+standalone_admin_password.txt
+
+Python cache
+
+pycache/
+*.pyc
