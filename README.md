@@ -24,7 +24,7 @@ An end-to-end, containerized data pipeline that extracts live weather data, tran
 ```bash
 git clone [https://github.com/ylamik/weather-etl-pipeline.git](https://github.com/ylamik/weather-etl-pipeline.git)
 cd weather-etl-pipeline
-
+```
 
 **2. Set up your environment variables**
 Create a `.env` file in the root directory and add your database credentials:
@@ -32,19 +32,17 @@ Create a `.env` file in the root directory and add your database credentials:
 DB_USER=data_engineer
 DB_PASSWORD=your_password
 DB_NAME=data_engineer
-
+```
 
 **3. Spin up the containers**
-
+```bash
 docker-compose up -d --build
-
+```
 
 **4. Access the UI**
-
-Airflow: http://localhost:8080
-
-Metabase: http://localhost:3000
+* **Airflow:** http://localhost:8080
+* **Metabase:** http://localhost:3000
 
 ## 📊 Dashboard Snapshot
-![Metabase Dashboard](assets/dashboard_snapshot_1.png)
-![Metabase Dashboard](assets/dashboard_snapshot_2.png)
+![Metabase Dashboard 1](assets/dashboard_snapshot_1.png)
+![Metabase Dashboard 2](assets/dashboard_snapshot_2.png)
