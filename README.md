@@ -26,25 +26,25 @@ git clone [https://github.com/ylamik/weather-etl-pipeline.git](https://github.co
 cd weather-etl-pipeline
 
 
-2. Set up your environment variables
-Create a .env file in the root directory and add your database credentials:
-
+**2. Set up your environment variables**
+Create a `.env` file in the root directory and add your database credentials:
+```env
 DB_USER=data_engineer
 DB_PASSWORD=your_password
 DB_NAME=data_engineer
 
 
-3. Spin up the containers
+**3. Spin up the containers**
 
 docker-compose up -d --build
 
 
-4. Access the UI
+**4. Access the UI**
 
 Airflow: http://localhost:8080
 
 Metabase: http://localhost:3000
 
-📊 Dashboard Snapshot
-![Metabase Dashboard](assets\dashboard_snapshot_1.png)
-![Metabase Dashboard](assets\dashboard_snapshot_2.png)
+## 📊 Dashboard Snapshot
+![Metabase Dashboard](assets/dashboard_snapshot_1.png)
+![Metabase Dashboard](assets/dashboard_snapshot_2.png)
