@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # --- MACHINE 1: The Data Warehouse ---
+  # --- MACHINE 1: The Data Warehouse & Airflow Metadata DB ---
   postgres_db:
     image: postgres:15
     container_name: weather_data_warehouse
@@ -16,10 +16,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U data_engineer -d weather_db"]
+      test: ["CMD-SHELL", "pg_isready -U data_engineer"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
 
   # --- MACHINE 2: The Airflow Orchestrator ---
   airflow:
@@ -30,6 +31,7 @@ services:
       - _AIRFLOW_WWW_USER_USERNAME=admin
       - _AIRFLOW_WWW_USER_PASSWORD=admin
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@postgres_db:5432/${DB_NAME}
     ports:
       - "8080:8080"
     volumes:

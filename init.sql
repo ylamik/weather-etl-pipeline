@@ -6,3 +6,7 @@ CREATE TABLE IF NOT EXISTS daily_temperatures (
     min_temp_celsius NUMERIC(5, 2),
     extraction_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE daily_temperatures
+ADD COLUMN latitude NUMERIC(9, 6),
+ADD COLUMN longitude NUMERIC(9, 6);
